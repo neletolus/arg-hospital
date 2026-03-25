@@ -32,8 +32,11 @@ const serviceOptions = [
   '健康診断',
   '予防接種',
   '生活習慣病外来',
+  '特別健康診断プログラム',
   'その他',
 ] as const
+
+const specialWarning = ref(false)
 
 const timeSlots = [
   '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00',
@@ -70,7 +73,16 @@ function validate(): boolean {
 function handleSubmit() {
   if (!validate()) return
 
+  const isSpecialProgram = form.service === '特別健康診断プログラム'
+
   submitted.value = true
+
+  if (isSpecialProgram) {
+    responseMessage.value =
+      '特別健康診断プログラムへのお申し込みを受け付けました。適性検査の日程について、48時間以内に担当者よりご連絡いたします。なお、この申し込みの取り消しはお受けしておりません。'
+    horror.discoverSecret('source-comment')
+    return
+  }
 
   const count = horror.visitCount
   if (count >= 7) {
@@ -82,6 +94,14 @@ function handleSubmit() {
   } else {
     responseMessage.value =
       'ご予約を承りました。確認のお電話を差し上げますので、しばらくお待ちください。'
+  }
+}
+
+function handleServiceChange() {
+  if (form.service === '特別健康診断プログラム') {
+    specialWarning.value = true
+  } else {
+    specialWarning.value = false
   }
 }
 </script>
@@ -147,11 +167,17 @@ function handleSubmit() {
             <label class="form-label">
               診療内容<span class="required">必須</span>
             </label>
-            <select v-model="form.service" class="form-select">
+            <select v-model="form.service" class="form-select" @change="handleServiceChange">
               <option value="">選択してください</option>
               <option v-for="opt in serviceOptions" :key="opt" :value="opt">{{ opt }}</option>
             </select>
             <p v-if="errors.service" class="form-error">{{ errors.service }}</p>
+            <div v-if="specialWarning" class="special-warning">
+              <p>※本プログラムは適性検査を通過された方のみご参加いただけます。</p>
+              <p>※対象：20〜35歳の健康な方</p>
+              <p>※検査は完全個室にて終日実施いたします。</p>
+              <p>※お申し込み後のキャンセルはお受けしておりません。</p>
+            </div>
           </div>
 
           <div class="form-group">
@@ -169,3 +195,16 @@ function handleSubmit() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.special-warning {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: rgba(231, 76, 60, 0.05);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+</style>

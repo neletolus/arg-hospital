@@ -1,0 +1,96 @@
+/* Horror Level Progressive Styles */
+
+/* Level 1: Subtle footer animation */
+.horror-level-1 .site-footer {
+  animation: color-shift 30s infinite;
+}
+
+/* Level 2: Slight desaturation */
+.horror-level-2 img {
+  filter: saturate(0.9);
+  transition: filter 0.3s;
+}
+
+/* Level 3: Images get slightly darker */
+.horror-level-3 img {
+  filter: saturate(0.85) contrast(1.05) brightness(0.97);
+}
+
+.horror-level-3 .hero {
+  filter: brightness(0.95);
+}
+
+/* Level 4: Periodic micro-glitches */
+.horror-level-4 img {
+  filter: saturate(0.75) contrast(1.08) brightness(0.94);
+}
+
+.horror-level-4 .site-header {
+  animation: header-flicker 20s infinite;
+}
+
+/* Level 5: Persistent visual artifacts */
+.horror-level-5 .hero {
+  filter: brightness(0.85) saturate(0.6);
+}
+
+.horror-level-5 img {
+  filter: saturate(0.5) contrast(1.15) brightness(0.9);
+}
+
+.horror-level-5 .card:nth-child(odd) {
+  animation: card-shift 10s infinite;
+}
+
+/* Logo flash easter egg */
+.logo-flash {
+  animation: flash-horror 200ms;
+}
+
+/* Night mode */
+.night-mode .site-header {
+  background: #1a1a2e;
+  border-bottom-color: #2a2a3e;
+}
+
+.night-mode .site-header .header-logo {
+  color: #8b4a4a;
+}
+
+.night-mode .site-header .nav-link {
+  color: #999;
+}
+
+.night-mode .site-footer {
+  background: #0d0d1a;
+}
+
+/* Animations */
+@keyframes color-shift {
+  0%, 100% { filter: none; }
+  50% { filter: hue-rotate(5deg) saturate(1.05); }
+}
+
+@keyframes header-flicker {
+  0%, 97%, 100% { opacity: 1; }
+  97.5% { opacity: 0.92; }
+  98% { opacity: 1; }
+  98.5% { opacity: 0.95; }
+}
+
+@keyframes card-shift {
+  0%, 96%, 100% { transform: none; }
+  97% { transform: translateX(1px); }
+  98% { transform: translateX(-1px); }
+}
+
+@keyframes blink-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes flash-horror {
+  0% { filter: invert(0); }
+  50% { filter: invert(1) hue-rotate(180deg); }
+  100% { filter: invert(0); }
+}

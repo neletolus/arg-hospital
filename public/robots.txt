@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Disallow: /records/
+Disallow: /protocol/
+Disallow: /basement/
+Disallow: /staff/real
+Disallow: /ashitaba-project/
+# 被験者情報へのアクセスを制限
+# NOTICE: Unauthorized access to subject data is strictly prohibited
+# Contact: ashitaba-admin@facility07.internal
